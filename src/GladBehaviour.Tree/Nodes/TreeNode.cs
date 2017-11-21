@@ -11,5 +11,14 @@ namespace GladBehaviour.Tree
 	{
 		/// <inheritdoc />
 		public abstract GladBehaviorTreeNodeState Evaluate(TContextType context);
+
+		/// <summary>
+		/// Internal ctor used to hide and prevent inheritance from this node
+		/// from outside assemblies.
+		/// </summary>
+		internal TreeNode()
+		{
+			
+		}
 	}
 }
