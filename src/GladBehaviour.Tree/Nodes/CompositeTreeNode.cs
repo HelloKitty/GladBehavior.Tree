@@ -15,7 +15,7 @@ namespace GladBehaviour.Tree
 		/// <summary>
 		/// Collection of the nodes involved in the composition.
 		/// </summary>
-		private IEnumerable<TreeNode<TContextType>> CompositionNodes { get; }
+		protected virtual IEnumerable<TreeNode<TContextType>> CompositionNodes { get; }
 
 		//TODO: Should we throw if it's empty?
 		protected CompositeTreeNode(IEnumerable<TreeNode<TContextType>> compositionNodes)
@@ -23,6 +23,14 @@ namespace GladBehaviour.Tree
 			if(compositionNodes == null) throw new ArgumentNullException(nameof(compositionNodes));
 
 			CompositionNodes = compositionNodes;
+		}
+
+		/// <summary>
+		/// Only call this ctor if you are overriding the <see cref="CompositionNodes"/> property.
+		/// </summary>
+		protected CompositeTreeNode()
+		{
+			
 		}
 
 		/// <inheritdoc />
