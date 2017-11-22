@@ -12,10 +12,16 @@ namespace GladBehavior.Tree.Tests
 		public int CalledTime { get; private set; }
 
 		/// <inheritdoc />
-		public override GladBehaviorTreeNodeState Evaluate(int context)
+		protected override GladBehaviorTreeNodeState OnEvaluate(int context)
 		{
 			CalledTime++;
 			return GladBehaviorTreeNodeState.Running;
+		}
+
+		/// <inheritdoc />
+		public override void Reset()
+		{
+			
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace GladBehaviour.Tree
 	public sealed class SequenceTreeNode<TContextType> : CompositeTreeNode<TContextType>, IRunningEvaluatable<TContextType>
 	{
 		/// <inheritdoc />
-		public bool isRunningNode => RunningNode != null;
+		public bool isRunningNode { get; private set; }
 
 		/// <summary>
 		/// Cache of the currently running sequence.
@@ -21,32 +21,34 @@ namespace GladBehaviour.Tree
 		private IEnumerator<IContextEvaluable<TContextType>> AsyncNodeEnumerator { get; }
 
 		/// <inheritdoc />
-		public IContextEvaluable<TContextType> RunningNode => AsyncNodeEnumerator.Current;
+		public IContextEvaluable<TContextType> RunningNode => isRunningNode ? AsyncNodeEnumerator.Current : null;
 
 		public SequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
 			: base(nodes)
 		{
 			AsyncNodeEnumerator = CompositionNodes.GetEnumerator();
+			AsyncNodeEnumerator.MoveNext(); //start the enumerator
 		}
 
 		/// <inheritdoc />
-		public override GladBehaviorTreeNodeState Evaluate(TContextType context)
+		protected override GladBehaviorTreeNodeState OnEvaluate(TContextType context)
 		{
-			//The idea here is if isRunningNode is false we're either 1 element before the start
-			//or its at the end but since we know Enumerator.Reset() was called then it means it is at the start
-			//If it's not at the start then isRunningNode will be true and we'll be in the middle running and shouldn't call MoveNext to start
-			//because we need to re-enter the running node
-			if(!isRunningNode)
-				AsyncNodeEnumerator.MoveNext();
-
-			//If there are nodes this will occur and we should treat it as a success
-			if(!isRunningNode)
+			//Exceptions are propgated up and handled
+			//This should only happen if we have no children
+			//otherwise the collection should have been reset
+			if(AsyncNodeEnumerator.Current == null)
 				return GladBehaviorTreeNodeState.Success;
 
 			GladBehaviorTreeNodeState state = EvaluateEnumerator(context);
 			OnFinishedState(state);
-
 			return state;
+		}
+
+		/// <inheritdoc />
+		public override void Reset()
+		{
+			AsyncNodeEnumerator.Reset();
+			AsyncNodeEnumerator.MoveNext();
 		}
 
 		private void OnFinishedState(GladBehaviorTreeNodeState state)
@@ -56,9 +58,13 @@ namespace GladBehaviour.Tree
 			{
 				case GladBehaviorTreeNodeState.Success:
 				case GladBehaviorTreeNodeState.Failure:
-					AsyncNodeEnumerator.Reset();
+					Reset();
+					break;
+				case GladBehaviorTreeNodeState.Running:
 					break;
 			}
+
+			isRunningNode = state == GladBehaviorTreeNodeState.Running;
 		}
 
 		private GladBehaviorTreeNodeState EvaluateEnumerator(TContextType context)

@@ -18,5 +18,17 @@ namespace GladBehavior.Tree.Tests
 			TestSuccessNode node = new TestSuccessNode();
 			Assert.DoesNotThrow(() => new SequenceTreeNode<int>(new TreeNode<int>[1] { node }));
 		}
+
+		[Test]
+		public static void Test_Unrun_Sequence_Indicates_NotRunning()
+		{
+			//arrange
+			TestSuccessNode node = new TestSuccessNode();
+			SequenceTreeNode<int> sequence = new SequenceTreeNode<int>(new TreeNode<int>[1] { node });
+
+			//assert
+			Assert.False(sequence.isRunningNode);
+			Assert.Null(sequence.RunningNode);
+		}
 	}
 }
