@@ -26,7 +26,7 @@ namespace GladBehaviour.Tree
 		public IContextEvaluable<TContextType> RunningNode => isRunningNode ? AsyncNodeEnumerator.Current : null;
 
 		public SequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
-			: base(!nodes.GetType().IsArray || !(nodes.GetType() is IList) ? nodes.ToArray() : nodes) //if we don't call ToArray then Enumerator.Reset will throw 
+			: base(nodes) 
 		{
 			AsyncNodeEnumerator = CompositionNodes.GetEnumerator();
 			AsyncNodeEnumerator.MoveNext(); //start the enumerator

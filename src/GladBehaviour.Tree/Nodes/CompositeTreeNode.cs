@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GladBehaviour.Tree
@@ -22,7 +23,9 @@ namespace GladBehaviour.Tree
 		{
 			if(compositionNodes == null) throw new ArgumentNullException(nameof(compositionNodes));
 
-			CompositionNodes = compositionNodes;
+			//if we don't call ToArray then Enumerator.Reset will throw if it's an IEnumerable as many won't support Reset on their IEnumerator
+			//Assuming IEnumerator is being called at some point and used directly. Iterating an array is also faster anyway, this is the best thing to do.
+			CompositionNodes = !compositionNodes.GetType().IsArray || !(compositionNodes.GetType() is IList) ? compositionNodes.ToArray() : compositionNodes;
 		}
 
 		/// <summary>
@@ -35,13 +38,13 @@ namespace GladBehaviour.Tree
 		}
 
 		/// <inheritdoc />
-		IEnumerator<IContextEvaluable<TContextType>> IEnumerable<IContextEvaluable<TContextType>>.GetEnumerator()
+		public IEnumerator<IContextEvaluable<TContextType>> GetEnumerator()
 		{
 			return CompositionNodes.GetEnumerator();
 		}
 
 		/// <inheritdoc />
-		public IEnumerator GetEnumerator()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return ((IEnumerable)CompositionNodes).GetEnumerator();
 		}
