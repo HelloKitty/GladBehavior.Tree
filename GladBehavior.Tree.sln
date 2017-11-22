@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FCFAE99C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GladBehaviour.Tree", "src\GladBehaviour.Tree\GladBehaviour.Tree.csproj", "{72FD0ADD-1CCC-48B1-AC09-4933D3052729}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GladBehavior.Tree.Tests", "tests\GladBehavior.Tree.Tests\GladBehavior.Tree.Tests.csproj", "{4A9D7AE2-11AA-47AC-BF63-DB1DCB36FB56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +21,17 @@ Global
 		{72FD0ADD-1CCC-48B1-AC09-4933D3052729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72FD0ADD-1CCC-48B1-AC09-4933D3052729}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72FD0ADD-1CCC-48B1-AC09-4933D3052729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9D7AE2-11AA-47AC-BF63-DB1DCB36FB56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9D7AE2-11AA-47AC-BF63-DB1DCB36FB56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9D7AE2-11AA-47AC-BF63-DB1DCB36FB56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9D7AE2-11AA-47AC-BF63-DB1DCB36FB56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{72FD0ADD-1CCC-48B1-AC09-4933D3052729} = {82223BC2-FD46-45B7-8714-A1BBB6FACC0E}
+		{4A9D7AE2-11AA-47AC-BF63-DB1DCB36FB56} = {FCFAE99C-C28A-44B7-A7BE-F9D5481C35B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A12FCF9D-E539-47C6-A9F9-D439D66325E4}
