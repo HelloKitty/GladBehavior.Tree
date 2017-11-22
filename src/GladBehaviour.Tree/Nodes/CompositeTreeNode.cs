@@ -27,8 +27,9 @@ namespace GladBehaviour.Tree
 
 		/// <summary>
 		/// Only call this ctor if you are overriding the <see cref="CompositionNodes"/> property.
+		/// Reserved only for internal library use.
 		/// </summary>
-		protected CompositeTreeNode()
+		internal CompositeTreeNode()
 		{
 			
 		}
