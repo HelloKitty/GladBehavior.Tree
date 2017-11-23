@@ -14,5 +14,12 @@ namespace GladBehaviour.Tree
 		//will be confused if they need to implement TreeNode instead of Leaf like seen
 		//in most definitions of a Behavior Tree. Also, some implementation stuff may be done here
 		//Though I'm unsnure what it could be. Maybe a stateful system similar to AsyncLocal stuff.
+
+		//Inheritors can override the reset method if they have reset semantics
+		/// <inheritdoc />
+		public override void Reset()
+		{
+
+		}
 	}
 }

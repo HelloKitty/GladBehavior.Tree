@@ -10,81 +10,39 @@ namespace GladBehaviour.Tree
 	/// Implementation of the Behavior Tree sequence node which is a <see cref="CompositeTreeNode{TContextType}"/> that
 	/// runs the composed nodes in a sequential order.
 	/// </summary>
-	/// <typeparam name="TContextType"></typeparam>
+	/// <typeparam name="TContextType">The type of the context.</typeparam>
 	public sealed class SequenceTreeNode<TContextType> : CompositeTreeNode<TContextType>, IRunningEvaluatable<TContextType>
 	{
 		/// <inheritdoc />
-		public bool isRunningNode { get; private set; }
-
-		/// <summary>
-		/// Cache of the currently running sequence.
-		/// The enumerator use facilitates the async/running potential nature of child nodes.
-		/// </summary>
-		private IEnumerator<IContextEvaluable<TContextType>> AsyncNodeEnumerator { get; }
+		public bool isRunningNode => EvaluationEnumerator.isRunningNode;
 
 		/// <inheritdoc />
-		public IContextEvaluable<TContextType> RunningNode => isRunningNode ? AsyncNodeEnumerator.Current : null;
+		public IContextEvaluable<TContextType> RunningNode => EvaluationEnumerator.RunningNode;
+
+		/// <summary>
+		/// The enumeration mediator for the composite evaluables
+		/// </summary>
+		private EvaluationEnumeratorMediator<TContextType> EvaluationEnumerator { get; }
 
 		public SequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
 			: base(nodes)
 		{
-			AsyncNodeEnumerator = CompositionNodes.GetEnumerator();
-			AsyncNodeEnumerator.MoveNext(); //start the enumerator
+			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), GladBehaviorTreeNodeState.Success);
 		}
 
 		/// <inheritdoc />
 		protected override GladBehaviorTreeNodeState OnEvaluate(TContextType context)
 		{
-			//Exceptions are propgated up and handled
-			//This should only happen if we have no children
-			//otherwise the collection should have been reset
-			if(AsyncNodeEnumerator.Current == null)
-				return GladBehaviorTreeNodeState.Success;
+			if(context == null) throw new ArgumentNullException(nameof(context));
 
-			GladBehaviorTreeNodeState state = EvaluateEnumerator(context);
-			OnFinishedState(state);
-			return state;
+			return EvaluationEnumerator.Evaluate(context);
 		}
 
 		/// <inheritdoc />
 		public override void Reset()
 		{
-			AsyncNodeEnumerator.Reset();
-			AsyncNodeEnumerator.MoveNext();
-		}
-
-		private void OnFinishedState(GladBehaviorTreeNodeState state)
-		{
-			//If we weren't running then we should reset the iterator
-			switch(state)
-			{
-				case GladBehaviorTreeNodeState.Success:
-				case GladBehaviorTreeNodeState.Failure:
-					Reset();
-					break;
-				case GladBehaviorTreeNodeState.Running:
-					break;
-			}
-
-			isRunningNode = state == GladBehaviorTreeNodeState.Running;
-		}
-
-		private GladBehaviorTreeNodeState EvaluateEnumerator(TContextType context)
-		{
-			GladBehaviorTreeNodeState state;
-			do
-			{
-				state = AsyncNodeEnumerator.Current.Evaluate(context);
-
-				//We should return if we encounter a running or a failure
-				//Success for sequences means we should continue the sequence
-				if(state != GladBehaviorTreeNodeState.Success)
-					break;
-
-			} while(AsyncNodeEnumerator.MoveNext());
-
-			//It's either success or failure
-			return state;
+			//Propagate the reset to the enumerator
+			EvaluationEnumerator.OnReset?.Invoke();
 		}
 	}
 }
