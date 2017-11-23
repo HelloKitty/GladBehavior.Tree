@@ -9,96 +9,94 @@ using NUnit.Framework;
 namespace GladBehavior.Tree.Tests
 {
 	[TestFixture]
-	public class SequenceTreeNodeTests
+	public class SelectorTreeNodeTests
 	{
 		[Test]
-		public static void Test_Can_Construct_SequenceNode()
+		public static void Test_Can_Construct_SelectorNode()
 		{
 			//arrange
 			TestSuccessNode node = new TestSuccessNode();
-			Assert.DoesNotThrow(() => new SequenceTreeNode<int>(new TreeNode<int>[1] { node }));
+			Assert.DoesNotThrow(() => new SelectorTreeNode<int>(new TreeNode<int>[1] { node }));
 		}
 
 		[Test]
-		public static void Test_Unrun_Sequence_Indicates_NotRunning()
+		public static void Test_Unrun_Selector_Indicates_NotRunning()
 		{
 			//arrange
 			TestSuccessNode node = new TestSuccessNode();
-			SequenceTreeNode<int> sequence = new SequenceTreeNode<int>(new TreeNode<int>[1] { node });
+			SelectorTreeNode<int> Selector = new SelectorTreeNode<int>(new TreeNode<int>[1] { node });
 
 			//assert
-			Assert.False(sequence.isRunningNode);
-			Assert.Null(sequence.RunningNode);
+			Assert.False(Selector.isRunningNode);
+			Assert.Null(Selector.RunningNode);
 		}
 
 		public static IEnumerable<int> NodeCountSource { get; } = Enumerable.Range(1, 20);
 
 		[Test]
 		[TestCaseSource(nameof(NodeCountSource))]
-		public static void Test_Run_Sequence_With_SuccessNodes_Returns_Success(int numerOfSuccessNodes)
+		public static void Test_Run_Selector_With_SuccessNodes_Returns_Success(int numerOfSuccessNodes)
 		{
 			//arrange
 			List<TestSuccessNode> nodes = new List<TestSuccessNode>(numerOfSuccessNodes);
 			for(int i = 0; i < numerOfSuccessNodes; i++)
 				nodes.Add(new TestSuccessNode());
 
-			SequenceTreeNode<int> sequence = new SequenceTreeNode<int>(nodes);
+			SelectorTreeNode<int> Selector = new SelectorTreeNode<int>(nodes);
 
 			//act
-			GladBehaviorTreeNodeState state = sequence.Evaluate(5);
+			GladBehaviorTreeNodeState state = Selector.Evaluate(5);
 
 			//assert
-			Assert.False(sequence.isRunningNode);
-			Assert.Null(sequence.RunningNode);
+			Assert.False(Selector.isRunningNode);
+			Assert.Null(Selector.RunningNode);
 			Assert.AreEqual(GladBehaviorTreeNodeState.Success, state);
 
-			foreach(TestSuccessNode node in nodes)
-				Assert.AreEqual(1, node.CalledTime, $"Expected the success node to be called {1} time but was called: {node.CalledTime}s.");
+			Assert.AreEqual(1, nodes.First().CalledTime, $"Expected the success node to be called {1} time but was called: {nodes.First().CalledTime}s.");
 		}
 
 		[Test]
 		[TestCaseSource(nameof(NodeCountSource))]
-		public static void Test_Run_Sequence_With_FailureNodes_Returns_Failure(int numerOfNodes)
+		public static void Test_Run_Selector_With_FailureNodes_Returns_Failure(int numerOfNodes)
 		{
 			//arrange
 			List<TestFailedNode> nodes = new List<TestFailedNode>(numerOfNodes);
 			for(int i = 0; i < numerOfNodes; i++)
 				nodes.Add(new TestFailedNode());
 
-			SequenceTreeNode<int> sequence = new SequenceTreeNode<int>(nodes);
+			SelectorTreeNode<int> Selector = new SelectorTreeNode<int>(nodes);
 
 			//act
-			GladBehaviorTreeNodeState state = sequence.Evaluate(5);
+			GladBehaviorTreeNodeState state = Selector.Evaluate(5);
 
 			//assert
-			Assert.False(sequence.isRunningNode);
-			Assert.Null(sequence.RunningNode);
+			Assert.False(Selector.isRunningNode);
+			Assert.Null(Selector.RunningNode);
 			Assert.AreEqual(GladBehaviorTreeNodeState.Failure, state);
 
-			Assert.AreEqual(1, nodes.First().CalledTime);
-			foreach(TestFailedNode node in nodes.Skip(1))
-				Assert.AreEqual(0, node.CalledTime, $"Expected the success node to be called {1} time but was called: {node.CalledTime}s.");
+			foreach(TestFailedNode node in nodes)
+				Assert.AreEqual(1, node.CalledTime, $"Expected the failure node to be called {1} time each but was called: {node.CalledTime}s.");
 		}
 
 		[Test]
-		public static void Test_Run_Sequence_With_FailureNode_Doesnt_Continue_Evaluation_When_Reached()
+		public static void Test_Run_Selector_With_FailureNode_Doesnt_Continue_Evaluation_When_Reached_Success_Returns_Sucess()
 		{
 			//arrange
 			List<TreeNode<int>> nodes = new List<TreeNode<int>>(5);
 			for(int i = 0; i < 5; i++)
-				nodes.Add(new TestSuccessNode());
+				nodes.Add(new TestFailedNode());
 
-			nodes.Insert(nodes.Count / 2 + 1, new TestFailedNode());
+			nodes.Insert(nodes.Count / 2 + 1, new TestSuccessNode());
 
-			SequenceTreeNode<int> sequence = new SequenceTreeNode<int>(nodes);
+			SelectorTreeNode<int> Selector = new SelectorTreeNode<int>(nodes);
 
 			//act
-			GladBehaviorTreeNodeState state = sequence.Evaluate(5);
+			GladBehaviorTreeNodeState state = Selector.Evaluate(5);
 
 			//assert
-			Assert.False(sequence.isRunningNode);
-			Assert.Null(sequence.RunningNode);
-			Assert.AreEqual(GladBehaviorTreeNodeState.Failure, state);
+			Assert.False(Selector.isRunningNode);
+			Assert.Null(Selector.RunningNode);
+			Assert.AreEqual(GladBehaviorTreeNodeState.Success, state);
 
 			Assert.AreEqual(1, ((dynamic)nodes.First()).CalledTime);
 			Assert.AreEqual(0, ((dynamic)nodes.Last()).CalledTime, $"Expected the success node to be called {1} time but was called: {((dynamic)nodes.Last()).CalledTime}s.");
@@ -106,18 +104,18 @@ namespace GladBehavior.Tree.Tests
 
 		[Test]
 		[TestCaseSource(nameof(NodeCountSource))]
-		public void Test_Run_Sequence_With_RunningNode_Reenter_Only_Running_Node(int count)
+		public void Test_Run_Selector_With_RunningNode_Reenter_Only_Running_Node(int count)
 		{
 			//arrange
 			List<TreeNode<int>> nodes = new List<TreeNode<int>>(5);
 			for(int i = 0; i < 5; i++)
-				nodes.Add(new TestSuccessNode());
+				nodes.Add(new TestFailedNode());
 
 			TestRunningNode runningNode = new TestRunningNode();
 
 			nodes.Add(runningNode);
 
-			SequenceTreeNode<int> sequence = new SequenceTreeNode<int>(nodes);
+			SelectorTreeNode<int> sequence = new SelectorTreeNode<int>(nodes);
 
 			//act
 			for(int i = 0; i < count; i++)

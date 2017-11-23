@@ -89,6 +89,9 @@ namespace GladBehaviour.Tree
 
 			} while(AsyncNodeEnumerator.MoveNext());
 
+			//The the finished state method
+			OnFinishedState(state);
+
 			//It's either success or failure
 			return state;
 		}
