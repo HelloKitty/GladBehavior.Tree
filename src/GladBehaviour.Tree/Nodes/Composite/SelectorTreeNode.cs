@@ -26,7 +26,7 @@ namespace GladBehaviour.Tree
 			: base(nodes)
 		{
 			//Unlike the sequence node we need to continue if we encounter Failure, not success.
-			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), GladBehaviorTreeNodeState.Failure);
+			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), new SingleContinueStateCompositeContinuationStrategy(GladBehaviorTreeNodeState.Failure));
 		}
 
 		/// <inheritdoc />

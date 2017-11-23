@@ -27,7 +27,7 @@ namespace GladBehaviour.Tree
 		public SequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
 			: base(nodes)
 		{
-			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), GladBehaviorTreeNodeState.Success);
+			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), new SingleContinueStateCompositeContinuationStrategy(GladBehaviorTreeNodeState.Success));
 		}
 
 		/// <inheritdoc />

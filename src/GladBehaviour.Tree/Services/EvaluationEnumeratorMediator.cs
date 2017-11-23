@@ -9,7 +9,7 @@ namespace GladBehaviour.Tree
 	/// Mediator between the enumerator for a collection of evaluables and a composite.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of the context.</typeparam>
-	public sealed class EvaluationEnumeratorMediator<TContextType> : IRunningEvaluatable<TContextType>, IContextEvaluable<TContextType>, IEnumerable<IContextEvaluable<TContextType>>
+	internal sealed class EvaluationEnumeratorMediator<TContextType> : IRunningEvaluatable<TContextType>, IContextEvaluable<TContextType>, IEnumerable<IContextEvaluable<TContextType>>
 	{
 		/// <inheritdoc />
 		public bool isRunningNode { get; private set; }
@@ -29,17 +29,18 @@ namespace GladBehaviour.Tree
 		public Action OnReset { get; }
 
 		/// <summary>
-		/// The state which the enumerator should stop when encountered.
+		/// Strategy that determines if the enumerator should continue based
+		/// on the current state.
 		/// </summary>
-		private GladBehaviorTreeNodeState ContinueNodeState { get; }
+		private ICompositeContinuationStrategy ContinuationStrategy { get; }
 
-		public EvaluationEnumeratorMediator(IEnumerator<IContextEvaluable<TContextType>> enumerator, GladBehaviorTreeNodeState continueNodeState)
+		public EvaluationEnumeratorMediator(IEnumerator<IContextEvaluable<TContextType>> enumerator, ICompositeContinuationStrategy continuationStrategy)
 		{
 			if(enumerator == null) throw new ArgumentNullException(nameof(enumerator));
-			if(!Enum.IsDefined(typeof(GladBehaviorTreeNodeState), continueNodeState)) throw new ArgumentOutOfRangeException(nameof(continueNodeState), "Value should be defined in the GladBehaviorTreeNodeState enum.");
+			if(continuationStrategy == null) throw new ArgumentNullException(nameof(continuationStrategy));
 
 			AsyncNodeEnumerator = enumerator;
-			ContinueNodeState = continueNodeState;
+			ContinuationStrategy = continuationStrategy;
 
 			//Start the enumerator
 			AsyncNodeEnumerator.MoveNext();
@@ -84,7 +85,7 @@ namespace GladBehaviour.Tree
 				state = AsyncNodeEnumerator.Current.Evaluate(context);
 
 				//We should return if we encounter anything but the designated continue state
-				if(state != ContinueNodeState)
+				if(!ContinuationStrategy.ShouldContinue(state))
 					break;
 
 			} while(AsyncNodeEnumerator.MoveNext());

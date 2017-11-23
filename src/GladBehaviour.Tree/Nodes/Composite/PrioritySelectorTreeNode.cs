@@ -14,7 +14,7 @@ namespace GladBehaviour.Tree
 	public sealed class PrioritySelectorTreeNode<TContextType> : SelectorTreeNode<TContextType>
 	{
 		/// <inheritdoc />
-		public PrioritySelectorTreeNode(IEnumerable<TreeNode<TContextType>> nodes) 
+		public PrioritySelectorTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
 			: base(nodes)
 		{
 
