@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Nodes\Decorator\" />
+    <Folder Include="Nodes\Leafs\" />
   </ItemGroup>
 
 </Project>
