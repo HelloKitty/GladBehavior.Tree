@@ -11,7 +11,7 @@ namespace GladBehaviour.Tree
 	/// runs the composed nodes in a sequential order.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of the context.</typeparam>
-	public sealed class SequenceTreeNode<TContextType> : CompositeTreeNode<TContextType>, IRunningEvaluatable<TContextType>
+	public class SequenceTreeNode<TContextType> : CompositeTreeNode<TContextType>, IRunningEvaluatable<TContextType>
 	{
 		/// <inheritdoc />
 		public bool isRunningNode => EvaluationEnumerator.isRunningNode;

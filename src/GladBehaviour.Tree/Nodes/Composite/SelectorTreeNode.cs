@@ -9,7 +9,7 @@ namespace GladBehaviour.Tree
 	/// runs the composed nodes until one is either succeeds or is running.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of the context.</typeparam>
-	public sealed class SelectorTreeNode<TContextType> : CompositeTreeNode<TContextType>
+	public class SelectorTreeNode<TContextType> : CompositeTreeNode<TContextType>
 	{
 		/// <inheritdoc />
 		public bool isRunningNode => EvaluationEnumerator.isRunningNode;

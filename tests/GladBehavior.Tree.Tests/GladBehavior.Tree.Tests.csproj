@@ -44,7 +44,9 @@
     <Compile Include="Nodes\TestRunningNode.cs" />
     <Compile Include="Nodes\TestSuccessNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\PrioritySelectorTreeNodeTests.cs" />
     <Compile Include="Tests\SelectorTreeNodeTests.cs" />
+    <Compile Include="Tests\PrioritySequenceTreeNodeTests.cs" />
     <Compile Include="Tests\SequenceTreeNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
