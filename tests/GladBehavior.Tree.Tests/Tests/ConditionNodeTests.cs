@@ -44,5 +44,31 @@ namespace GladBehavior.Tree.Tests
 			//assert
 			Assert.AreEqual(GladBehaviorTreeNodeState.Failure, state);
 		}
+
+		[Test]
+		public void Test_True_LambdaCondition_Returns_Success()
+		{
+			//arrange
+			LambdaConditionTreeNode<int> node = new LambdaConditionTreeNode<int>(c => true);
+
+			//act
+			GladBehaviorTreeNodeState state = node.Evaluate(5);
+
+			//assert
+			Assert.AreEqual(GladBehaviorTreeNodeState.Success, state);
+		}
+
+		[Test]
+		public void Test_True_LambdaCondition_Returns_Failure()
+		{
+			//arrange
+			LambdaConditionTreeNode<int> node = new LambdaConditionTreeNode<int>(c => false);
+
+			//act
+			GladBehaviorTreeNodeState state = node.Evaluate(5);
+
+			//assert
+			Assert.AreEqual(GladBehaviorTreeNodeState.Failure, state);
+		}
 	}
 }
