@@ -41,9 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Nodes\TestFailedNode.cs" />
+    <Compile Include="Nodes\TestFalseConditionNode.cs" />
     <Compile Include="Nodes\TestRunningNode.cs" />
     <Compile Include="Nodes\TestSuccessNode.cs" />
+    <Compile Include="Nodes\TestTrueConditionNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ConditionNodeTests.cs" />
     <Compile Include="Tests\InverterNodeTests.cs" />
     <Compile Include="Tests\PrioritySelectorTreeNodeTests.cs" />
     <Compile Include="Tests\SelectorTreeNodeTests.cs" />
