@@ -30,6 +30,12 @@ namespace GladBehaviour.Tree
 			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), new SingleContinueStateCompositeContinuationStrategy(GladBehaviorTreeNodeState.Success));
 		}
 
+		public SequenceTreeNode(params TreeNode<TContextType>[] nodes)
+			: this((IEnumerable<TreeNode<TContextType>>)nodes)
+		{
+
+		}
+
 		/// <inheritdoc />
 		protected override GladBehaviorTreeNodeState OnEvaluate(TContextType context)
 		{
