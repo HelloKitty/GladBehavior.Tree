@@ -1,5 +1,7 @@
 # GladBehavior.Tree
 
+Supports netstandard1.0 and net40!
+
 GladBehavior.Tree is a [Behavior Tree (BT)](https://en.wikipedia.org/wiki/Behavior_tree_(artificial_intelligence,_robotics_and_control)) implementation that supports generic contexts/agents. There are many differing implementations of behavior trees but GladBehavior.Tree attempts to adhere to the common implementation found in many other popular libraries. Behavior Trees allow for modular and reusable construction of AI models. With the custom nodes being the reusable components that compose a Behavior Tree.
 
 ## Node Types
@@ -34,9 +36,9 @@ TODO
 
 ## Builds
 
-**NuGet:** TODO
+**NuGet:** https://www.nuget.org/packages/GladBehaviour.Tree
 
-**MyGet:** TODO
+**MyGet:** [![hellokitty MyGet Build Status](https://www.myget.org/BuildSource/Badge/hellokitty?identifier=21927a8e-4d7e-4f19-b509-ec35f9ea739f)](https://www.myget.org/)
 
 ## License
 
