@@ -21,6 +21,13 @@ namespace GladBehaviour.Tree
 		}
 
 		/// <inheritdoc />
+		public PrioritySelectorTreeNode(params TreeNode<TContextType>[] nodes)
+			: this((IEnumerable<TreeNode<TContextType>>)nodes)
+		{
+
+		}
+
+		/// <inheritdoc />
 		protected override GladBehaviorTreeNodeState OnEvaluate(TContextType context)
 		{
 			//Reset the sequence before evaluating so that the highest priority nodes
