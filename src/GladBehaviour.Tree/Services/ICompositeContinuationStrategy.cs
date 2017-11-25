@@ -8,7 +8,7 @@ namespace GladBehaviour.Tree
 	/// Strategy for indicating if a composite should continue
 	/// evaluating based on the current <see cref="GladBehaviorTreeNodeState"/>.
 	/// </summary>
-	public interface ICompositeContinuationStrategy
+	internal interface ICompositeContinuationStrategy
 	{
 		/// <summary>
 		/// Indicates if a composite should continue evaluating based on the provided

@@ -8,7 +8,7 @@ namespace GladBehaviour.Tree
 	/// <see cref="ICompositeContinuationStrategy"/> implementation that continues only if
 	/// a specified state is encountered.
 	/// </summary>
-	public sealed class SingleContinueStateCompositeContinuationStrategy : ICompositeContinuationStrategy
+	internal sealed class SingleContinueStateCompositeContinuationStrategy : ICompositeContinuationStrategy
 	{
 		/// <summary>
 		/// The only state the composite should continue with.

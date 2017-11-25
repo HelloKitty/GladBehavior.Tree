@@ -11,7 +11,7 @@ namespace GladBehaviour.Tree.Enumerators
 	/// This does NOT follow tree traversal semantics but instead yields a enumerable of all nodes.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of the context.</typeparam>
-	public sealed class TreeEnumerator<TContextType> : IEnumerable<TreeNode<TContextType>>
+	internal sealed class TreeEnumerator<TContextType> : IEnumerable<TreeNode<TContextType>>
 	{
 		/// <summary>
 		/// The root node to start the enumeration at.
@@ -59,7 +59,6 @@ namespace GladBehaviour.Tree.Enumerators
 								yield return recursiveEnumerator.Current;
 						}
 					}
-					
 			}
 		}
 
