@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
+    <Authors>Andrew Blakely</Authors>
+    <Company />
+    <Product>GladBehaviour.Tree</Product>
+    <Description>GladBehavior.Tree is a C#/.NET Behavior Tree (BT) implementation that supports generic contexts/agents.</Description>
+    <Copyright>Andrew Blakely</Copyright>
+    <PackageLicenseUrl>https://github.com/HelloKitty/GladBehavior.Tree/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/HelloKitty/GladBehavior.Tree</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HelloKitty/GladBehavior.Tree</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Behavior BehaviorTree Tree Behaviour BehaviourTree BT AI Trees</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.0\GladBehaviour.Tree.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>

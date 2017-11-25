@@ -46,7 +46,7 @@ namespace GladBehaviour.Tree
 			AsyncNodeEnumerator.MoveNext();
 
 			//Add the internal reset to the OnReset delegate
-			OnReset += Reset;
+			OnReset += ResetEnumerator;
 		}
 
 		private void OnFinishedState(GladBehaviorTreeNodeState state)
@@ -66,7 +66,7 @@ namespace GladBehaviour.Tree
 		}
 
 		/// <inheritdoc />
-		public void Reset()
+		public void ResetEnumerator()
 		{
 			AsyncNodeEnumerator.Reset();
 			AsyncNodeEnumerator.MoveNext();
