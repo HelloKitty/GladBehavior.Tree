@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace GladBehaviour.Tree
 {
@@ -7,8 +9,13 @@ namespace GladBehaviour.Tree
 	/// Base type of all nodes in the behavior tree.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of context the node acts on.</typeparam>
-	public abstract class TreeNode<TContextType> : IContextEvaluable<TContextType>, INodeResetable
+	public abstract class TreeNode<TContextType> : IContextEvaluable<TContextType>, IEnumerable<TreeNode<TContextType>>, INodeResetable
 	{
+		/// <summary>
+		/// Indicates if the node has children.
+		/// </summary>
+		public abstract bool HasChildNodes { get; }
+
 		/// <summary>
 		/// Internal ctor used to hide and prevent inheritance from this node
 		/// from outside assemblies.
@@ -43,5 +50,14 @@ namespace GladBehaviour.Tree
 		//It is called by the base node in cases where exceptions are encountered.
 		/// <inheritdoc />
 		public abstract void Reset();
+
+		/// <inheritdoc />
+		public abstract IEnumerator<TreeNode<TContextType>> GetEnumerator();
+
+		/// <inheritdoc />
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
 	}
 }

@@ -15,11 +15,20 @@ namespace GladBehaviour.Tree
 		//in most definitions of a Behavior Tree. Also, some implementation stuff may be done here
 		//Though I'm unsnure what it could be. Maybe a stateful system similar to AsyncLocal stuff.
 
+		/// <inheritdoc />
+		public override bool HasChildNodes { get; } = false;
+
 		//Inheritors can override the reset method if they have reset semantics
 		/// <inheritdoc />
 		public override void Reset()
 		{
 
+		}
+
+		/// <inheritdoc />
+		public override IEnumerator<TreeNode<TContextType>> GetEnumerator()
+		{
+			yield return this;
 		}
 	}
 }

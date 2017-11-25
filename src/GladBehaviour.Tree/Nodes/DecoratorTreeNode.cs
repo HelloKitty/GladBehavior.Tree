@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GladBehaviour.Tree
@@ -33,6 +35,13 @@ namespace GladBehaviour.Tree
 			if(node == null) throw new ArgumentNullException(nameof(node));
 
 			_CompositionNodes = new TreeNode<TContextType>[1] { node };
+		}
+
+		/// <inheritdoc />
+		public override IEnumerator<TreeNode<TContextType>> GetEnumerator()
+		{
+			//TODO: Is there a performance cost associated with AsEnumerable? I assume no?
+			return _CompositionNodes.AsEnumerable().GetEnumerator();
 		}
 	}
 }
