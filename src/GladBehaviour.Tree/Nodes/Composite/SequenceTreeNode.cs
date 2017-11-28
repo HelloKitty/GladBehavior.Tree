@@ -25,15 +25,28 @@ namespace GladBehaviour.Tree
 		private EvaluationEnumeratorMediator<TContextType> EvaluationEnumerator { get; }
 
 		public SequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
-			: base(nodes)
+			: this(nodes, new SingleContinueStateCompositeContinuationStrategy(GladBehaviorTreeNodeState.Success))
 		{
-			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), new SingleContinueStateCompositeContinuationStrategy(GladBehaviorTreeNodeState.Success));
+
 		}
 
 		public SequenceTreeNode(params TreeNode<TContextType>[] nodes)
 			: this((IEnumerable<TreeNode<TContextType>>)nodes)
 		{
 
+		}
+
+		/// <summary>
+		/// Internal ctor that allows for overriding the default continue strategy.
+		/// </summary>
+		/// <param name="nodes"></param>
+		/// <param name="continueStrategy"></param>
+		internal SequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes, ICompositeContinuationStrategy continueStrategy)
+			: base(nodes)
+		{
+			if(continueStrategy == null) throw new ArgumentNullException(nameof(continueStrategy));
+
+			EvaluationEnumerator = new EvaluationEnumeratorMediator<TContextType>(CompositionNodes.GetEnumerator(), continueStrategy);
 		}
 
 		/// <inheritdoc />

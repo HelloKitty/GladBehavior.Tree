@@ -11,7 +11,7 @@ namespace GladBehaviour.Tree
 	/// instead of directly re-entering a running node.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of the context.</typeparam>
-	public sealed class PrioritySequenceTreeNode<TContextType> : SequenceTreeNode<TContextType>
+	public class PrioritySequenceTreeNode<TContextType> : SequenceTreeNode<TContextType>
 	{
 		/// <inheritdoc />
 		public PrioritySequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes)
@@ -23,6 +23,17 @@ namespace GladBehaviour.Tree
 		/// <inheritdoc />
 		public PrioritySequenceTreeNode(params TreeNode<TContextType>[] nodes)
 			: this((IEnumerable<TreeNode<TContextType>>)nodes)
+		{
+
+		}
+
+		/// <summary>
+		/// Internal ctor that allows for overriding the default continue strategy.
+		/// </summary>
+		/// <param name="nodes"></param>
+		/// <param name="continueStrategy"></param>
+		internal PrioritySequenceTreeNode(IEnumerable<TreeNode<TContextType>> nodes, ICompositeContinuationStrategy continueStrategy)
+			: base(nodes, continueStrategy)
 		{
 
 		}

@@ -27,6 +27,17 @@ namespace GladBehaviour.Tree
 
 		}
 
+		/// <summary>
+		/// Internal ctor that allows for overriding the default continue strategy.
+		/// </summary>
+		/// <param name="nodes"></param>
+		/// <param name="continueStrategy"></param>
+		internal PrioritySelectorTreeNode(IEnumerable<TreeNode<TContextType>> nodes, ICompositeContinuationStrategy continueStrategy)
+			: base(nodes, continueStrategy)
+		{
+
+		}
+
 		/// <inheritdoc />
 		protected override GladBehaviorTreeNodeState OnEvaluate(TContextType context)
 		{

@@ -9,7 +9,7 @@ namespace GladBehaviour.Tree
 	/// Mediator between the enumerator for a collection of evaluables and a composite.
 	/// </summary>
 	/// <typeparam name="TContextType">The type of the context.</typeparam>
-	internal sealed class EvaluationEnumeratorMediator<TContextType> : IRunningEvaluatable<TContextType>, IContextEvaluable<TContextType>, IEnumerable<IContextEvaluable<TContextType>>
+	public sealed class EvaluationEnumeratorMediator<TContextType> : IRunningEvaluatable<TContextType>, IContextEvaluable<TContextType>, IEnumerable<IContextEvaluable<TContextType>>
 	{
 		/// <inheritdoc />
 		public bool isRunningNode { get; private set; }
@@ -34,7 +34,7 @@ namespace GladBehaviour.Tree
 		/// </summary>
 		private ICompositeContinuationStrategy ContinuationStrategy { get; }
 
-		public EvaluationEnumeratorMediator(IEnumerator<IContextEvaluable<TContextType>> enumerator, ICompositeContinuationStrategy continuationStrategy)
+		internal EvaluationEnumeratorMediator(IEnumerator<IContextEvaluable<TContextType>> enumerator, ICompositeContinuationStrategy continuationStrategy)
 		{
 			if(enumerator == null) throw new ArgumentNullException(nameof(enumerator));
 			if(continuationStrategy == null) throw new ArgumentNullException(nameof(continuationStrategy));
